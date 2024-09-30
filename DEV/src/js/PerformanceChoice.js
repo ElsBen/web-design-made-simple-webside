@@ -17,6 +17,8 @@ export default class PerformanceChoice{
         btn.addEventListener('click', ()=>{
             // Hier wird noch eine Logik für die übermittlung zum FormData Benötigt!
             console.log("Der Button:" + btn.id + "wurde geklickt!");
+            localStorage.setItem(`savePerformanceSelection`, JSON.stringify(btn.id));
+            window.location.href = "./kontakt.html";
         })
     }
 }

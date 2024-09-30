@@ -134,10 +134,22 @@ export default class FormData {
         const name = `Name:  ${entries.name}`;
         const lastName = `Nachname:  ${entries.lastName}`;
         const email = `Email:  ${entries.email}`;
-        const message = `Nachricht:  ${entries.message}`;
-        const formattedEntries = [name, lastName, email, message];
+        const message = `Nachricht:${entries.message}`;
+        const validateSelect = this.validateSelection();
+        const performanceSelection = `Auswahl:${validateSelect}`;
+        const formattedEntries = [name, lastName, email, message, performanceSelection];
      
         this.validatAndBuildSendStateWindow(formattedEntries, entries);
+    }
+
+    validateSelection(){
+        const selection = this.savedPerformanceSelection;
+        return selection
+        .split(/^([^]+)-([^-]+)/)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ')
+        .trimLeft()
+        .trimEnd();
     }
 
     /**
@@ -166,12 +178,7 @@ export default class FormData {
      * und im Einträge-Array hinzugefügt.
      */
     getSavedPerformanceSelection(){
-        let performanceSelection  = {}
-        
-        this.savedPerformanceSelection.forEach((e, i) => {
-            let selectionKey = 'selection' + i;
-            performanceSelection[selectionKey] = e;
-        });
+        let performanceSelection  = {selection: this.savedPerformanceSelection};
         
         this.userEntries[0].push(performanceSelection);
         this.validatAndBuildSendStateWindow(true);
@@ -224,7 +231,7 @@ export default class FormData {
                 });
                 
                 content = content.replace(/["\\\[\]]/g, '');
-                content = content.split(/, Auswahl:/g).join('\n\nAuswahl:\n')
+                content = content.replace(/Auswahl:/g, '\nAuswahl:\n');
                 content = content.replace(/Nachricht:/g, '\nNachricht:\n');
                 btnContent = 'Ja';
                 color = this.colorSuccess;
