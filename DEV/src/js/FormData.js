@@ -66,9 +66,9 @@ export default class FormData {
         }
 
         // Wird am Schluss nicht mehr benötigt
-        setInterval(() => {
-            console.log(this.userEntries);
-        }, 10000);
+        // setInterval(() => {
+        //     console.log(this.userEntries);
+        // }, 10000);
     }
 
     /**

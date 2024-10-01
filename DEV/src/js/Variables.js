@@ -1,5 +1,8 @@
 "use strict"
 
+// Newsletter references
+export const newsForm = document.querySelector('#nb-form');
+
 // Performance references
 export const buttons = document.querySelectorAll('.leistung-auswählen-btn');
 

@@ -1056,6 +1056,7 @@ section {
     width: 30%;
     min-width: 33%;
     height: max-content;
+    color: white;
     padding: 1rem 1rem 2rem 1rem;
     text-align: center;
     background-color: var(--dunkel-grau);
