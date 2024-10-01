@@ -312,7 +312,7 @@ section {
 
 #mobile-nav-button > span {
     position: absolute;
-    bottom: -2px;
+    bottom: -4px;
     left: 7px;
 }
 
@@ -1068,6 +1068,8 @@ section {
 }
 
 .user-inf-btn{
+    width: 4rem;
+    min-width: min-content;
     display: inline-block;
 }
 
@@ -1085,6 +1087,10 @@ section {
 
 @media (max-width: 1024px) {
 
+    .sended-user-input {
+        width: 60%;
+    }
+
     #kontakt-formular {
         width: 100%;
     }
@@ -1092,6 +1098,10 @@ section {
 }
 
 @media (max-width: 768px) {
+
+    .sended-user-input {
+        width: 70%;
+    }
 
     #kontakt-formular button {
         width: 100%;
