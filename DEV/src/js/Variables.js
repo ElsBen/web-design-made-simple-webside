@@ -34,10 +34,33 @@ export const colorSuccess = '#ffffff';
 
 // Validations
 export const validEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+export const validateSelection = ()=>{
+    const selection = savedPerformanceSelection;
+    return selection
+    .split(/^([^]+)-([^-]+)/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+    .trimLeft()
+    .trimEnd();
+}
 
 // Objects
 export const saveEntr = [];
 export const userEntries = []; 
+export const getEntries = ()=>{
+    const formName = document.querySelector('#vorname').value;
+    const formLastName = document.querySelector('#nachname').value;
+    const formEMail = document.querySelector('#email').value;
+    const formMessage = document.querySelector('#nachricht').value;
+
+    const saveEntries = {
+        name: formName,
+        lastName: formLastName,
+        email: formEMail,
+        message: formMessage,
+    };
+    return saveEntries;
+};
 
 // Storage
 
@@ -49,3 +72,5 @@ export const savedPerformanceSelection = JSON.parse(
     localStorage.getItem('savePerformanceSelection')
 ) || [];
 
+// Remove
+export const removePerfEntries = localStorage.removeItem('savePerformanceSelection');

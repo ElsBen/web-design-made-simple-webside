@@ -14,7 +14,10 @@ import {
     colorSuccess,
     colorAlert,
     userInputSendBtn,
-    userInputCancelBtn
+    userInputCancelBtn,
+    removePerfEntries,
+    getEntries,
+    validateSelection
 } from "./Variables.js";
 
 export default class FormData {
@@ -30,21 +33,19 @@ export default class FormData {
 
         this.savedInquiry = savedInquiry;
         this.savedPerformanceSelection = savedPerformanceSelection;
-
-        localStorage.removeItem('savePerformanceSelection');
-
-    
+        this.removePerfEntries = removePerfEntries;
+        
         /**
          * Stellt sicher, dass das Formular vorhanden ist und hält die 
          * Werte für das Fenster beim erfolglosen oder erfolgreichen Abschicken des Formulars.
-         */
-        if (this.form){
-            this.headlineInputSend = headlineInputSend();
-            this.paragraphInputSend = paragraphInputSend();
-            this.colorSuccess = colorSuccess;
-            this.colorAlert = colorAlert;
-            this.userInputSendBtn = userInputSendBtn;
-            this.userInputCancelBtn = userInputCancelBtn;
+        */
+       if (this.form){
+           this.headlineInputSend = headlineInputSend();
+           this.paragraphInputSend = paragraphInputSend();
+           this.colorSuccess = colorSuccess;
+           this.colorAlert = colorAlert;
+           this.userInputSendBtn = userInputSendBtn;
+           this.userInputCancelBtn = userInputCancelBtn;
         } else {console.log('Form does not exist!')}
        
     }
@@ -58,17 +59,13 @@ export default class FormData {
     start() {
         if (this.savedInquiry && this.savedInquiry.length >= 0) {
             this.userEntries = this.savedInquiry;
+            this.removePerfEntries;
         }
 
         if (this.form) {
             this.getUserInfoBtn();
             this.getInputValuesAndBuildObject();
         }
-
-        // Wird am Schluss nicht mehr benötigt
-        // setInterval(() => {
-        //     console.log(this.userEntries);
-        // }, 10000);
     }
 
     /**
@@ -76,16 +73,18 @@ export default class FormData {
      */
     getUserInfoBtn(){
         this.userInputSendContent.addEventListener('click', (e) => {
-                
-            if (e.target.innerHTML.match('Ja')){
+            
+            const clickeContent = e.target.innerHTML;
+
+            if (clickeContent.match('Ja')){
                 setTimeout(()=>{
                     this.userInputCancelBtn.style.display = 'none';
                     this.saveUserEntries(this.saveEntr);
                 }, 1000)
-            } else if (e.target.innerHTML.match('Nein')){
+            } else if (clickeContent.match('Nein')){
                 this.userInputCancelBtn.style.display = 'none';
                 this.validatAndBuildSendStateWindow(false);
-            } else if (e.target.innerHTML.match('Schließen')){
+            } else if (clickeContent.match('Schließen')){
                 this.userInputSend.style.display = 'none';
             }
         });
@@ -95,20 +94,8 @@ export default class FormData {
         this.form.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            const formName = document.querySelector('#vorname').value;
-            const formLastName = document.querySelector('#nachname').value;
-            const formEMail = document.querySelector('#email').value;
-            const formMessage = document.querySelector('#nachricht').value;
-
-            const saveEntries = {
-                name: formName,
-                lastName: formLastName,
-                email: formEMail,
-                message: formMessage,
-            };
-
             this.userInputCancelBtn.style.display = 'inline-block';
-            this.checkEntriesValid(saveEntries);
+            this.checkEntriesValid(getEntries());
         });
     }
 
@@ -135,21 +122,11 @@ export default class FormData {
         const lastName = `Nachname:  ${entries.lastName}`;
         const email = `Email:  ${entries.email}`;
         const message = `Nachricht:${entries.message}`;
-        const validateSelect = this.validateSelection();
+        const validateSelect = validateSelection();
         const performanceSelection = `Auswahl:${validateSelect}`;
         const formattedEntries = [name, lastName, email, message, performanceSelection];
      
         this.validatAndBuildSendStateWindow(formattedEntries, entries);
-    }
-
-    validateSelection(){
-        const selection = this.savedPerformanceSelection;
-        return selection
-        .split(/^([^]+)-([^-]+)/)
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(' ')
-        .trimLeft()
-        .trimEnd();
     }
 
     /**
@@ -178,7 +155,9 @@ export default class FormData {
      * und im Einträge-Array hinzugefügt.
      */
     getSavedPerformanceSelection(){
-        let performanceSelection  = {selection: this.savedPerformanceSelection};
+        let performanceSelection  = {
+            selection: this.savedPerformanceSelection
+        };
         
         this.userEntries[0].push(performanceSelection);
         this.validatAndBuildSendStateWindow(true);

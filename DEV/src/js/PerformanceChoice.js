@@ -4,7 +4,9 @@ import { buttons } from "./Variables.js";
 
 export default class PerformanceChoice{
     start(){
-        this.iterateBtns();
+        if(buttons){
+            this.iterateBtns();
+        }
     }
     
     iterateBtns(){
@@ -15,8 +17,6 @@ export default class PerformanceChoice{
 
     setClickEvent(btn){
         btn.addEventListener('click', ()=>{
-            // Hier wird noch eine Logik für die übermittlung zum FormData Benötigt!
-            console.log("Der Button:" + btn.id + "wurde geklickt!");
             localStorage.setItem(`savePerformanceSelection`, JSON.stringify(btn.id));
             window.location.href = "./kontakt.html";
         })
