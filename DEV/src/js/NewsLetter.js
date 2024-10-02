@@ -34,6 +34,7 @@ export default class NewsLetter {
         let message = "";
         if (email.match(this.validMail)){
             message = `Der Newsletter wurde erfolgreich auf folgende E-Mail Adresse ${email} gebucht!`;
+            this.form.reset();
         } else {
             message = `Ihre Eingabe ${email} entspricht nicht dem Format für E-Mail-Adressen!`;
         }
@@ -50,7 +51,6 @@ export default class NewsLetter {
     closeWindow(){
         this.closeBtn.addEventListener('click', ()=>{
             userInputSend.style.display = 'none';
-            this.form.reset();
         })
     }
 }

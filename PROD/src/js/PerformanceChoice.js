@@ -1,0 +1,1 @@
+"use strict";import{buttons}from"../../../DEV/src/js/Variables.js";export default class PerformanceChoice{start(){buttons&&this.iterateBtns()}iterateBtns(){buttons.forEach(t=>{this.setClickEvent(t)})}setClickEvent(t){t.addEventListener("click",()=>{localStorage.setItem("savePerformanceSelection",JSON.stringify(t.id)),window.location.href="./kontakt.html"})}}

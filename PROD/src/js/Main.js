@@ -1,0 +1,1 @@
+"use strict";import FormData from"../../../DEV/src/js/FormData.js";import NewsLetter from"../../../DEV/src/js/NewsLetter.js";import PerformanceChoice from"../../../DEV/src/js/PerformanceChoice.js";const newsLetter=new NewsLetter;newsLetter.start();const newForm=new FormData;newForm.start();const newPerform=new PerformanceChoice;newPerform.start();
